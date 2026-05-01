@@ -296,6 +296,30 @@
 
   .add-set-btn:active { border-color: var(--accent); color: var(--accent); }
 
+  .pr-inline {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+    padding: 11px 0;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .pr-inline.pr-new {
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    font-size: 16px;
+  }
+
+  .pr-inline.pr-none {
+    background: none;
+    border: none;
+    color: transparent;
+  }
+
   /* Log */
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-icon { font-size: 48px; margin-bottom: 12px; }
@@ -548,14 +572,30 @@ function renderToday() {
   updateProgress(w);
 }
 
+function getPR(exName) {
+  const todayKey = getTodayKey();
+  let best = 0;
+  workouts.forEach(w => {
+    if (w.dateKey === todayKey) return; // exclude today
+    w.exercises.forEach(ex => {
+      if (ex.name !== exName) return;
+      ex.sets.forEach(s => { const r = parseInt(s.reps)||0; if (r > best) best = r; });
+    });
+  });
+  return best;
+}
+
 function buildCard(ex, ei) {
   const isLogged = ex.sets.some(s => s.reps !== '');
   const hasWeight = ex.name === 'Row';
-  const setsHtml = ex.sets.map((s,si) => buildSetRow(ei,si,s,hasWeight)).join('');
+  const pr = getPR(ex.name);
+  const setsHtml = ex.sets.map((s,si) => buildSetRow(ei,si,s,hasWeight,pr)).join('');
   const headerCols = hasWeight
-    ? '<span>·</span><span>Reps</span><span>Weight</span>'
-    : '<span>·</span><span>Reps</span>';
-  const gridStyle = hasWeight ? '' : ' style="grid-template-columns:36px 1fr"';
+    ? '<span>·</span><span>Reps</span><span>Weight</span><span>PR</span>'
+    : '<span>·</span><span>Reps</span><span>PR</span>';
+  const gridStyle = hasWeight
+    ? ' style="grid-template-columns:36px 1fr 1fr 44px"'
+    : ' style="grid-template-columns:36px 1fr 44px"';
   return `<div class="ex-card${isLogged?' logged':''}" id="excard-${ei}">
     <div class="ex-card-header">
       <div class="ex-card-name">${ex.name.toUpperCase()}</div>
@@ -567,18 +607,24 @@ function buildCard(ex, ei) {
   </div>`;
 }
 
-function buildSetRow(ei, si, s, hasWeight) {
+function buildSetRow(ei, si, s, hasWeight, pr) {
   const weightInput = hasWeight
     ? `<input type="number" inputmode="decimal" placeholder="—" min="0" value="${s.weight}"
         class="${s.weight!==''?'filled':''}"
         onchange="updateSet(${ei},${si},'weight',this.value,this)" onfocus="this.select()">`
     : '';
-  const gridStyle = hasWeight ? '' : ' style="grid-template-columns:36px 1fr"';
+  const reps = parseInt(s.reps) || 0;
+  const isNewPR = pr > 0 && reps > pr;
+  const prLabel = pr > 0 ? pr : '—';
+  const prDisplay = `<div class="pr-inline${isNewPR?' pr-new':''}">${isNewPR?'🏆':prLabel}</div>`;
+  const gridStyle = hasWeight
+    ? ' style="grid-template-columns:36px 1fr 1fr 44px"'
+    : ' style="grid-template-columns:36px 1fr 44px"';
   return `<div class="set-row"${gridStyle}>
     <div class="set-num">S${si+1}</div>
     <input type="number" inputmode="numeric" placeholder="—" min="0" value="${s.reps}"
       class="${s.reps!==''?'filled':''}"
-      onchange="updateSet(${ei},${si},'reps',this.value,this)" onfocus="this.select()">${weightInput}
+      onchange="updateSet(${ei},${si},'reps',this.value,this)" onfocus="this.select()">${weightInput}${prDisplay}
   </div>`;
 }
 
@@ -588,8 +634,9 @@ function addSet(ei) {
   save();
   const si = w.exercises[ei].sets.length - 1;
   const hasWeight = w.exercises[ei].name === 'Row';
+  const pr = getPR(w.exercises[ei].name);
   const container = document.getElementById('setrows-'+ei);
-  container.insertAdjacentHTML('beforeend', buildSetRow(ei, si, {reps:'',weight:''}, hasWeight));
+  container.insertAdjacentHTML('beforeend', buildSetRow(ei, si, {reps:'',weight:''}, hasWeight, pr));
   updateProgress(w);
 }
 
@@ -601,6 +648,11 @@ function updateSet(ei, si, field, val, inputEl) {
   const isLogged = w.exercises[ei].sets.some(s => s.reps !== '');
   document.getElementById('excard-'+ei).classList.toggle('logged', isLogged);
   document.getElementById('excheck-'+ei).textContent = isLogged ? '✓' : '';
+  // Re-render set rows so PR indicator updates
+  const ex = w.exercises[ei];
+  const hasWeight = ex.name === 'Row';
+  const pr = getPR(ex.name);
+  document.getElementById('setrows-'+ei).innerHTML = ex.sets.map((s,i) => buildSetRow(ei,i,s,hasWeight,pr)).join('');
   updateProgress(w);
   updateStats();
 }
@@ -658,7 +710,6 @@ function updateStats() {
   document.getElementById('streakBadge').textContent = '🔥 '+streak+' DAY'+(streak!==1?'S':'')+' STREAK';
 }
 
-function showToast(msg) {
 
 function renderPRs() {
   const container = document.getElementById('prList');
@@ -697,6 +748,7 @@ function renderPRs() {
   }).filter(Boolean).join('');
 }
 
+function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
