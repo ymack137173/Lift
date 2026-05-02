@@ -592,8 +592,8 @@
 // Routine A: Mon(1), Wed(3), Fri(5)
 // Routine B: Tue(2), Thu(4), Sat(6), Sun(0)
 const ROUTINES = {
-  A: { name: 'WORKOUT A', exercises: ['Pushup','Squat','Pullup','Chinup','RDL'] },
-  B: { name: 'WORKOUT B', exercises: ['Pushup','Squat','Pullup','Chinup','Row','Dip'] }
+  A: { name: 'WORKOUT A', exercises: ['Pushup','Squat','Pullup','Chinup','Hanging Leg Raise'] },
+  B: { name: 'WORKOUT B', exercises: ['Row','RDL','Dip','Overhead Press','Banded Pull Apart','Bulgarian Split Squat'] }
 };
 const DAY_ROUTINE = { 0:'B', 1:'A', 2:'B', 3:'A', 4:'B', 5:'A', 6:'B' };
 
@@ -755,7 +755,7 @@ function renderLog() {
       if (!setsDetail) return '';
       return '<div class="ex-log-row"><span class="ex-log-name">'+ex.name+'</span><span class="ex-log-sets">'+setsDetail+'</span></div>';
     }).filter(Boolean).join('');
-    const tagText = w.routineKey==='A' ? 'Pushup · Squat · Pullup · Chinup · RDL' : 'Pushup · Squat · Pullup · Chinup · Row · Dip';
+    const tagText = w.routineKey==='A' ? 'Pushup · Squat · Pullup · Chinup · Hanging Leg Raise' : 'Row · RDL · Dip · Overhead Press · Banded Pull Apart';
     return '<div class="workout-card"><div class="card-top"><div><div class="card-title">'+dateStr+'</div><div class="card-date">'+ROUTINES[w.routineKey].name+'</div></div><button class="delete-btn" onclick="deleteWorkout(\''+w.dateKey+'\',event)">✕</button></div><div class="log-workout-tag">'+tagText+'</div><div class="ex-log-grid">'+exRows+'</div></div>';
   }).join('');
 }
@@ -786,7 +786,7 @@ function updateStats() {
 
 function renderPRs() {
   const container = document.getElementById('prList');
-  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Row','Dip'];
+  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Overhead Press','Banded Pull Apart','Row','Dip'];
   const prs = {};
   allExercises.forEach(name => { prs[name] = { reps: 0, weight: 0, date: null }; });
 
@@ -823,7 +823,7 @@ function renderPRs() {
 
 function renderStats() {
   const container = document.getElementById('statsList');
-  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Row','Dip'];
+  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Overhead Press','Banded Pull Apart','Row','Dip'];
 
   // Build data: for each exercise, array of {date, maxReps} sorted by date
   const dataMap = {};
