@@ -21,523 +21,124 @@
     --muted: #6b6b80;
     --radius: 16px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100dvh; overflow-x: hidden; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100dvh;
-    overflow-x: hidden;
-  }
+  header { padding: 20px 20px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+  .logo { font-family: 'Black Han Sans', sans-serif; font-size: 36px; letter-spacing: 4px; color: var(--accent); line-height: 1; text-shadow: 0 0 30px var(--accent-glow); }
+  .streak-badge { background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 50px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 1px; white-space: nowrap; }
 
-  header {
-    padding: 20px 20px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .logo {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 36px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    line-height: 1;
-    text-shadow: 0 0 30px var(--accent-glow);
-  }
-
-  .streak-badge {
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: 50px;
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-
-
-
-  .tabs {
-    display: flex;
-    padding: 0 20px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .tab {
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
+  .tabs { display: flex; padding: 0 20px; border-bottom: 1px solid var(--border); }
+  .tab { flex: 1; text-align: center; padding: 12px 0; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; letter-spacing: 0.5px; text-transform: uppercase; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   .view { display: none; padding: 20px 20px 60px; animation: fadeUp 0.25s ease; }
   .view.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .section-title { font-family: 'Black Han Sans', sans-serif; font-size: 20px; letter-spacing: 2px; margin-bottom: 4px; color: var(--text); }
+  .section-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
 
-  .section-title {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-    color: var(--text);
-  }
-
-  .section-sub {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .day-banner {
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .day-banner-label {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 15px;
-    letter-spacing: 2px;
-    color: var(--accent);
-  }
-
-  .day-banner-day {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 2px;
-  }
-
-  .done-badge {
-    background: var(--green);
-    color: #000;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 4px 10px;
-    border-radius: 50px;
-    display: none;
-  }
-
+  /* Day banner */
+  .day-banner { background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .day-banner-label { font-family: 'Black Han Sans', sans-serif; font-size: 15px; letter-spacing: 2px; color: var(--accent); }
+  .day-banner-day { font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 2px; }
+  .done-badge { background: var(--green); color: #000; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 4px 10px; border-radius: 50px; display: none; }
   .done-badge.visible { display: inline-block; }
 
-  .progress-wrap { margin-bottom: 20px; }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 6px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .progress-bar {
-    height: 4px;
-    background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 4px;
-    transition: width 0.4s ease;
-  }
-
-  .ex-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 12px;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .ex-card.logged {
-    border-color: var(--green);
-    background: linear-gradient(135deg, var(--card) 80%, rgba(0,230,118,0.04));
-  }
-
-  .ex-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-  }
-
-  .ex-card-name {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 17px;
-    letter-spacing: 1.5px;
-    color: var(--text);
-  }
-
-  .ex-check {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
-  .ex-card.logged .ex-check {
-    background: var(--green);
-    border-color: var(--green);
-    color: #000;
-    font-weight: 700;
-  }
-
-  .sets-header {
-    display: grid;
-    grid-template-columns: 36px 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-
-  .sets-header span {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    text-align: center;
-  }
-
-  .sets-header span:first-child { text-align: left; color: transparent; }
-
-  .set-row {
-    display: grid;
-    grid-template-columns: 36px 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 6px;
-    align-items: center;
-  }
-
-  .set-num {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted);
-    text-align: center;
-  }
-
-  .set-row input {
+  /* Switch workout button */
+  .switch-btn {
+    width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 11px 8px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    outline: none;
-    width: 100%;
-    transition: border-color 0.15s, box-shadow 0.15s, color 0.15s;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  .set-row input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-  }
-
-  .set-row input.filled {
-    border-color: var(--green);
-    color: var(--green);
-  }
-
-  .add-set-btn {
-    width: 100%;
-    background: none;
-    border: 1px dashed var(--border);
-    border-radius: 10px;
-    padding: 9px;
+    padding: 11px 16px;
     color: var(--muted);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 4px;
-    transition: border-color 0.15s, color 0.15s;
     font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transition: border-color 0.15s, color 0.15s;
   }
+  .switch-btn:active { border-color: var(--accent); color: var(--accent); }
+  .switch-btn span { color: var(--accent); }
 
+  /* Progress */
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 6px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+
+  /* Exercise cards */
+  .ex-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; transition: border-color 0.2s, background 0.2s; }
+  .ex-card.logged { border-color: var(--green); background: linear-gradient(135deg, var(--card) 80%, rgba(0,230,118,0.04)); }
+  .ex-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .ex-card-name { font-family: 'Black Han Sans', sans-serif; font-size: 17px; letter-spacing: 1.5px; color: var(--text); }
+  .ex-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.2s; flex-shrink: 0; }
+  .ex-card.logged .ex-check { background: var(--green); border-color: var(--green); color: #000; font-weight: 700; }
+
+  .sets-header { display: grid; gap: 8px; margin-bottom: 6px; }
+  .sets-header span { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; text-align: center; }
+
+  .set-row { display: grid; gap: 8px; margin-bottom: 6px; align-items: center; }
+  .set-num { font-size: 11px; font-weight: 600; color: var(--muted); text-align: center; }
+
+  .set-row input { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 11px 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; text-align: center; outline: none; width: 100%; transition: border-color 0.15s, box-shadow 0.15s, color 0.15s; -webkit-appearance: none; appearance: none; }
+  .set-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+  .set-row input.filled { border-color: var(--green); color: var(--green); }
+
+  .add-set-btn { width: 100%; background: none; border: 1px dashed var(--border); border-radius: 10px; padding: 9px; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 4px; transition: border-color 0.15s, color 0.15s; font-family: 'DM Sans', sans-serif; }
   .add-set-btn:active { border-color: var(--accent); color: var(--accent); }
 
-  .pr-inline {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--muted);
-    text-align: center;
-    padding: 11px 0;
-    border-radius: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-  }
-
-  .pr-inline.pr-new {
-    color: var(--accent);
-    background: var(--accent-dim);
-    border-color: var(--accent);
-    font-size: 16px;
-  }
-
-  .pr-inline.pr-none {
-    background: none;
-    border: none;
-    color: transparent;
-  }
+  .pr-inline { font-size: 13px; font-weight: 700; color: var(--muted); text-align: center; padding: 11px 0; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
+  .pr-inline.pr-new { color: var(--accent); background: var(--accent-dim); border-color: var(--accent); font-size: 16px; }
+  .pr-inline.pr-none { background: none; border: none; color: transparent; }
 
   /* Log */
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-icon { font-size: 48px; margin-bottom: 12px; }
   .empty-state p { font-size: 14px; line-height: 1.6; }
 
-  .workout-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 14px;
-  }
-
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-
-  .card-title {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-    color: var(--text);
-    line-height: 1.2;
-  }
-
+  .workout-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .card-title { font-family: 'Black Han Sans', sans-serif; font-size: 16px; letter-spacing: 1px; color: var(--text); line-height: 1.2; }
   .card-date { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-  .delete-btn {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 16px;
-    cursor: pointer;
-    padding: 2px 6px;
-    border-radius: 6px;
-    flex-shrink: 0;
-  }
-
+  .delete-btn { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 6px; flex-shrink: 0; }
   .delete-btn:active { color: var(--red); }
-
-  .log-workout-tag {
-    display: inline-block;
-    background: var(--accent-dim);
-    border: 1px solid var(--accent);
-    border-radius: 50px;
-    padding: 3px 10px;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-  }
-
+  .log-workout-tag { display: inline-block; background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 50px; padding: 3px 10px; font-size: 10px; font-weight: 600; color: var(--accent); letter-spacing: 0.5px; margin-bottom: 10px; }
   .ex-log-grid { display: flex; flex-direction: column; gap: 6px; }
-
-  .ex-log-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    font-size: 13px;
-    padding: 8px 12px;
-    background: var(--surface);
-    border-radius: 8px;
-    gap: 8px;
-  }
-
+  .ex-log-row { display: flex; justify-content: space-between; align-items: flex-start; font-size: 13px; padding: 8px 12px; background: var(--surface); border-radius: 8px; gap: 8px; }
   .ex-log-name { color: var(--text); font-weight: 500; white-space: nowrap; }
   .ex-log-sets { color: var(--muted); font-size: 11px; text-align: right; line-height: 1.5; }
 
-  #toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--accent);
-    color: #000;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    padding: 12px 22px;
-    border-radius: 50px;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none;
-    z-index: 999;
-    white-space: nowrap;
-  }
+  /* PRs */
+  .pr-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+  .pr-ex-name { font-family: 'Black Han Sans', sans-serif; font-size: 17px; letter-spacing: 1.5px; color: var(--text); margin-bottom: 4px; }
+  .pr-meta { font-size: 11px; color: var(--muted); }
+  .pr-reps { font-family: 'Black Han Sans', sans-serif; font-size: 32px; color: var(--accent); line-height: 1; text-align: right; }
+  .pr-unit { font-size: 11px; color: var(--muted); margin-top: 2px; text-align: right; }
+  .pr-empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 14px; line-height: 1.6; }
 
+  /* Stats */
+  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+  .chart-title { font-family: 'Black Han Sans', sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--text); margin-bottom: 12px; }
+  .chart-wrap { position: relative; width: 100%; height: 100px; }
+  .chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+  .stats-empty { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--accent); color: #000; font-weight: 700; font-size: 13px; letter-spacing: 0.5px; padding: 12px 22px; border-radius: 50px; opacity: 0; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; z-index: 999; white-space: nowrap; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  .pr-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .pr-card-left {}
-
-  .pr-ex-name {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 17px;
-    letter-spacing: 1.5px;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
-  .pr-meta {
-    font-size: 11px;
-    color: var(--muted);
-  }
-
-  .pr-value {
-    text-align: right;
-  }
-
-  .pr-reps {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 32px;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .pr-unit {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .pr-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  .chart-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-
-  .chart-title {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 14px;
-    letter-spacing: 1.5px;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-
-  .chart-wrap {
-    position: relative;
-    width: 100%;
-    height: 100px;
-  }
-
-  .chart-wrap svg {
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-
-  .chart-empty {
-    text-align: center;
-    padding: 28px 0;
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .chart-x-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 4px;
-    padding: 0 2px;
-  }
-
-  .chart-x-label {
-    font-size: 9px;
-    color: var(--muted);
-    text-align: center;
-    flex: 1;
-  }
-
-  .chart-y-label {
-    position: absolute;
-    right: 0;
-    font-size: 9px;
-    color: var(--muted);
-    transform: translateY(-50%);
-  }
-
-  .stats-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.6;
-  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">LIFT</div>
-  <div class="streak-badge" id="streakBadge">🔥 0 DAY STREAK</div>
+  <div class="streak-badge" id="streakBadge">🔥 0 DAYS STREAK</div>
 </header>
-
-
 
 <div class="tabs">
   <div class="tab active" onclick="switchTab('today')">Today</div>
@@ -546,6 +147,7 @@
   <div class="tab" onclick="switchTab('stats')">Stats</div>
 </div>
 
+<!-- TODAY -->
 <div class="view active" id="view-today">
   <div class="day-banner">
     <div>
@@ -555,31 +157,31 @@
     <div class="done-badge" id="doneBadge">ALL DONE</div>
   </div>
 
+  <button class="switch-btn" id="switchBtn" onclick="switchWorkout()"></button>
+
   <div class="progress-wrap">
-    <div class="progress-label">
-      <span>Progress</span>
-      <span id="progressText">0 / 0 logged</span>
-    </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
+    <div class="progress-label"><span>Progress</span><span id="progressText">0 / 0 logged</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   </div>
 
   <div id="todayExercises"></div>
 </div>
 
+<!-- LOG -->
 <div class="view" id="view-log">
   <p class="section-title">WORKOUT LOG</p>
   <p class="section-sub">Your completed sessions</p>
   <div id="workoutList"></div>
 </div>
 
+<!-- PRs -->
 <div class="view" id="view-pr">
   <p class="section-title">PERSONAL RECORDS</p>
   <p class="section-sub">Best rep count per exercise</p>
   <div id="prList"></div>
 </div>
 
+<!-- STATS -->
 <div class="view" id="view-stats">
   <p class="section-title">STATS</p>
   <p class="section-sub">Max reps per session per exercise</p>
@@ -589,12 +191,11 @@
 <div id="toast"></div>
 
 <script>
-// Routine A: Mon(1), Wed(3), Fri(5)
-// Routine B: Tue(2), Thu(4), Sat(6), Sun(0)
 const ROUTINES = {
   A: { name: 'WORKOUT A', exercises: ['Pushup','Squat','Pullup','Chinup','Hanging Leg Raise'] },
   B: { name: 'WORKOUT B', exercises: ['Row','RDL','Dip','Overhead Press','Banded Pull Apart','Bulgarian Split Squat'] }
 };
+// Default: Mon/Wed/Fri = A, others = B
 const DAY_ROUTINE = { 0:'B', 1:'A', 2:'B', 3:'A', 4:'B', 5:'A', 6:'B' };
 
 function getTodayKey() {
@@ -602,15 +203,17 @@ function getTodayKey() {
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
+function getDefaultRoutine() { return DAY_ROUTINE[new Date().getDay()]; }
+function getAlternateRoutine(rk) { return rk === 'A' ? 'B' : 'A'; }
+
 let workouts = JSON.parse(localStorage.getItem('lift_v3') || '[]');
 function save() { localStorage.setItem('lift_v3', JSON.stringify(workouts)); }
 
 function getTodayWorkout() {
   const key = getTodayKey();
-  const rk = DAY_ROUTINE[new Date().getDay()];
+  const rk = getDefaultRoutine();
   let w = workouts.find(x => x.dateKey === key);
-  // Regenerate if exercise list doesn't match current routine
-  if (w && w.exercises.length !== ROUTINES[rk].exercises.length) {
+  if (w && w.exercises.length !== ROUTINES[w.routineKey].exercises.length) {
     workouts = workouts.filter(x => x.dateKey !== key);
     w = null;
   }
@@ -621,6 +224,20 @@ function getTodayWorkout() {
     save();
   }
   return w;
+}
+
+function switchWorkout() {
+  const key = getTodayKey();
+  const w = getTodayWorkout();
+  const newRk = getAlternateRoutine(w.routineKey);
+  // Replace today's entry with new routine (fresh sets)
+  workouts = workouts.filter(x => x.dateKey !== key);
+  const newW = { dateKey: key, routineKey: newRk,
+    exercises: ROUTINES[newRk].exercises.map(name => ({ name, sets:[{reps:'',weight:''}] })) };
+  workouts.unshift(newW);
+  save();
+  renderToday();
+  showToast('Switched to ' + ROUTINES[newRk].name);
 }
 
 function switchTab(name) {
@@ -635,11 +252,13 @@ function switchTab(name) {
 function renderToday() {
   const w = getTodayWorkout();
   const routine = ROUTINES[w.routineKey];
+  const altRk = getAlternateRoutine(w.routineKey);
   document.getElementById('routineLabel').textContent = routine.name;
   const today = new Date();
   document.getElementById('todayDateLabel').textContent =
     today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-
+  document.getElementById('switchBtn').innerHTML =
+    'Switch to <span>' + ROUTINES[altRk].name + '</span>';
   document.getElementById('todayExercises').innerHTML =
     w.exercises.map((ex,ei) => buildCard(ex,ei)).join('');
   updateProgress(w);
@@ -649,7 +268,7 @@ function getPR(exName) {
   const todayKey = getTodayKey();
   let best = 0;
   workouts.forEach(w => {
-    if (w.dateKey === todayKey) return; // exclude today
+    if (w.dateKey === todayKey) return;
     w.exercises.forEach(ex => {
       if (ex.name !== exName) return;
       ex.sets.forEach(s => { const r = parseInt(s.reps)||0; if (r > best) best = r; });
@@ -667,14 +286,14 @@ function buildCard(ex, ei) {
     ? '<span>·</span><span>Reps</span><span>Weight</span><span>PR</span>'
     : '<span>·</span><span>Reps</span><span>PR</span>';
   const gridStyle = hasWeight
-    ? ' style="grid-template-columns:36px 1fr 1fr 44px"'
-    : ' style="grid-template-columns:36px 1fr 44px"';
+    ? 'grid-template-columns:36px 1fr 1fr 44px'
+    : 'grid-template-columns:36px 1fr 44px';
   return `<div class="ex-card${isLogged?' logged':''}" id="excard-${ei}">
     <div class="ex-card-header">
       <div class="ex-card-name">${ex.name.toUpperCase()}</div>
       <div class="ex-check" id="excheck-${ei}">${isLogged?'✓':''}</div>
     </div>
-    <div class="sets-header"${gridStyle}>${headerCols}</div>
+    <div class="sets-header" style="${gridStyle}">${headerCols}</div>
     <div id="setrows-${ei}">${setsHtml}</div>
     <button class="add-set-btn" onclick="addSet(${ei})">+ Add Set</button>
   </div>`;
@@ -690,10 +309,8 @@ function buildSetRow(ei, si, s, hasWeight, pr) {
   const isNewPR = pr > 0 && reps > pr;
   const prLabel = pr > 0 ? pr : '—';
   const prDisplay = `<div class="pr-inline${isNewPR?' pr-new':''}">${isNewPR?'🏆':prLabel}</div>`;
-  const gridStyle = hasWeight
-    ? ' style="grid-template-columns:36px 1fr 1fr 44px"'
-    : ' style="grid-template-columns:36px 1fr 44px"';
-  return `<div class="set-row"${gridStyle}>
+  const gridStyle = hasWeight ? 'grid-template-columns:36px 1fr 1fr 44px' : 'grid-template-columns:36px 1fr 44px';
+  return `<div class="set-row" style="${gridStyle}">
     <div class="set-num">S${si+1}</div>
     <input type="number" inputmode="numeric" placeholder="—" min="0" value="${s.reps}"
       class="${s.reps!==''?'filled':''}"
@@ -708,8 +325,7 @@ function addSet(ei) {
   const si = w.exercises[ei].sets.length - 1;
   const hasWeight = w.exercises[ei].name === 'Row';
   const pr = getPR(w.exercises[ei].name);
-  const container = document.getElementById('setrows-'+ei);
-  container.insertAdjacentHTML('beforeend', buildSetRow(ei, si, {reps:'',weight:''}, hasWeight, pr));
+  document.getElementById('setrows-'+ei).insertAdjacentHTML('beforeend', buildSetRow(ei,si,{reps:'',weight:''},hasWeight,pr));
   updateProgress(w);
 }
 
@@ -721,7 +337,6 @@ function updateSet(ei, si, field, val, inputEl) {
   const isLogged = w.exercises[ei].sets.some(s => s.reps !== '');
   document.getElementById('excard-'+ei).classList.toggle('logged', isLogged);
   document.getElementById('excheck-'+ei).textContent = isLogged ? '✓' : '';
-  // Re-render set rows so PR indicator updates
   const ex = w.exercises[ei];
   const hasWeight = ex.name === 'Row';
   const pr = getPR(ex.name);
@@ -733,8 +348,7 @@ function updateSet(ei, si, field, val, inputEl) {
 function updateProgress(w) {
   const total = w.exercises.length;
   const done = w.exercises.filter(ex => ex.sets.some(s => s.reps !== '')).length;
-  const pct = total > 0 ? (done/total)*100 : 0;
-  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressFill').style.width = (total>0?(done/total)*100:0)+'%';
   document.getElementById('progressText').textContent = done+' / '+total+' logged';
   document.getElementById('doneBadge').classList.toggle('visible', done===total && total>0);
 }
@@ -755,8 +369,7 @@ function renderLog() {
       if (!setsDetail) return '';
       return '<div class="ex-log-row"><span class="ex-log-name">'+ex.name+'</span><span class="ex-log-sets">'+setsDetail+'</span></div>';
     }).filter(Boolean).join('');
-    const tagText = w.routineKey==='A' ? 'Pushup · Squat · Pullup · Chinup · Hanging Leg Raise' : 'Row · RDL · Dip · Overhead Press · Banded Pull Apart';
-    return '<div class="workout-card"><div class="card-top"><div><div class="card-title">'+dateStr+'</div><div class="card-date">'+ROUTINES[w.routineKey].name+'</div></div><button class="delete-btn" onclick="deleteWorkout(\''+w.dateKey+'\',event)">✕</button></div><div class="log-workout-tag">'+tagText+'</div><div class="ex-log-grid">'+exRows+'</div></div>';
+    return '<div class="workout-card"><div class="card-top"><div><div class="card-title">'+dateStr+'</div><div class="card-date">'+ROUTINES[w.routineKey].name+'</div></div><button class="delete-btn" onclick="deleteWorkout(\''+w.dateKey+'\',event)">✕</button></div><div class="log-workout-tag">'+ROUTINES[w.routineKey].name+'</div><div class="ex-log-grid">'+exRows+'</div></div>';
   }).join('');
 }
 
@@ -764,71 +377,42 @@ function deleteWorkout(dateKey, e) {
   e.stopPropagation();
   workouts = workouts.filter(w => w.dateKey !== dateKey);
   save();
-  updateStats();
   renderLog();
   showToast('🗑️ Deleted');
 }
 
-function updateStats() {
-  const logged = workouts.filter(w => w.exercises.some(ex => ex.sets.some(s => s.reps!=='')));
-
-  const logKeys = new Set(logged.map(w => w.dateKey));
-  let streak = 0;
-  const today = new Date();
-  for (let i = 0; i < 365; i++) {
-    const d = new Date(today); d.setDate(today.getDate()-i);
-    const key = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-    if (logKeys.has(key)) streak++; else if (i>0) break;
-  }
-  document.getElementById('streakBadge').textContent = '🔥 '+streak+' DAY'+(streak!==1?'S':'')+' STREAK';
-}
-
-
 function renderPRs() {
   const container = document.getElementById('prList');
-  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Overhead Press','Banded Pull Apart','Row','Dip'];
+  const allExercises = ['Pushup','Squat','Pullup','Chinup','Hanging Leg Raise','Row','RDL','Dip','Overhead Press','Banded Pull Apart','Bulgarian Split Squat'];
   const prs = {};
-  allExercises.forEach(name => { prs[name] = { reps: 0, weight: 0, date: null }; });
-
+  allExercises.forEach(name => { prs[name] = { reps:0, weight:0, date:null }; });
   workouts.forEach(w => {
     w.exercises.forEach(ex => {
       if (!prs[ex.name]) return;
       ex.sets.forEach(s => {
-        const r = parseInt(s.reps) || 0;
-        const wt = parseFloat(s.weight) || 0;
-        if (r > prs[ex.name].reps || (r === prs[ex.name].reps && wt > prs[ex.name].weight)) {
-          prs[ex.name].reps = r;
-          prs[ex.name].weight = wt;
-          prs[ex.name].date = w.dateKey;
+        const r = parseInt(s.reps)||0, wt = parseFloat(s.weight)||0;
+        if (r > prs[ex.name].reps || (r===prs[ex.name].reps && wt>prs[ex.name].weight)) {
+          prs[ex.name].reps = r; prs[ex.name].weight = wt; prs[ex.name].date = w.dateKey;
         }
       });
     });
   });
-
   const hasAny = allExercises.some(name => prs[name].reps > 0);
-  if (!hasAny) {
-    container.innerHTML = '<div class="pr-empty">No PRs yet.<br>Log some sets and your best will show up here!</div>';
-    return;
-  }
-
+  if (!hasAny) { container.innerHTML = '<div class="pr-empty">No PRs yet.<br>Log some sets and your best will show up here!</div>'; return; }
   container.innerHTML = allExercises.map(name => {
-    const pr = prs[name];
-    if (pr.reps === 0) return '';
-    const d = new Date(pr.date + 'T12:00:00');
-    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    const weightStr = pr.weight ? ' @ ' + pr.weight + 'kg' : '';
-    return '<div class="pr-card"><div class="pr-card-left"><div class="pr-ex-name">' + name.toUpperCase() + '</div><div class="pr-meta">' + dateStr + weightStr + '</div></div><div class="pr-value"><div class="pr-reps">' + pr.reps + '</div><div class="pr-unit">REPS</div></div></div>';
+    const pr = prs[name]; if (pr.reps===0) return '';
+    const d = new Date(pr.date+'T12:00:00');
+    const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const weightStr = pr.weight ? ' @ '+pr.weight+'kg' : '';
+    return '<div class="pr-card"><div><div class="pr-ex-name">'+name.toUpperCase()+'</div><div class="pr-meta">'+dateStr+weightStr+'</div></div><div><div class="pr-reps">'+pr.reps+'</div><div class="pr-unit">REPS</div></div></div>';
   }).filter(Boolean).join('');
 }
 
 function renderStats() {
   const container = document.getElementById('statsList');
-  const allExercises = ['Pushup','Squat','Pullup','Chinup','RDL','Overhead Press','Banded Pull Apart','Row','Dip'];
-
-  // Build data: for each exercise, array of {date, maxReps} sorted by date
+  const allExercises = ['Pushup','Squat','Pullup','Chinup','Hanging Leg Raise','Row','RDL','Dip','Overhead Press','Banded Pull Apart','Bulgarian Split Squat'];
   const dataMap = {};
   allExercises.forEach(name => dataMap[name] = []);
-
   const sorted = [...workouts].sort((a,b) => a.dateKey.localeCompare(b.dateKey));
   sorted.forEach(w => {
     w.exercises.forEach(ex => {
@@ -837,70 +421,47 @@ function renderStats() {
       if (maxReps > 0) dataMap[ex.name].push({ date: w.dateKey, reps: maxReps });
     });
   });
-
   const hasAny = allExercises.some(name => dataMap[name].length > 0);
-  if (!hasAny) {
-    container.innerHTML = '<div class="stats-empty">No data yet.<br>Log some sessions and your progress will appear here!</div>';
-    return;
-  }
-
+  if (!hasAny) { container.innerHTML = '<div class="stats-empty">No data yet.<br>Log some sessions and your progress will appear here!</div>'; return; }
   container.innerHTML = allExercises.map(name => {
-    const pts = dataMap[name];
-    if (pts.length === 0) return '';
-
-    const W = 300, H = 100, PAD = 6;
-    const maxR = Math.max(...pts.map(p => p.reps));
-    const minR = Math.min(...pts.map(p => p.reps));
-    const range = maxR === minR ? 1 : maxR - minR;
-
-    const coords = pts.map((p, i) => {
-      const x = pts.length === 1 ? W/2 : PAD + (i / (pts.length-1)) * (W - PAD*2);
-      const y = H - PAD - ((p.reps - minR) / range) * (H - PAD*2);
-      return [x, y];
+    const pts = dataMap[name]; if (pts.length===0) return '';
+    const W=300, H=100, PAD=6;
+    const maxR = Math.max(...pts.map(p=>p.reps));
+    const minR = Math.min(...pts.map(p=>p.reps));
+    const range = maxR===minR ? 1 : maxR-minR;
+    const coords = pts.map((p,i) => {
+      const x = pts.length===1 ? W/2 : PAD+(i/(pts.length-1))*(W-PAD*2);
+      const y = H-PAD-((p.reps-minR)/range)*(H-PAD*2);
+      return [x,y];
     });
-
-    const polyline = coords.map(([x,y]) => x+','+y).join(' ');
-    const area = `${coords[0][0]},${H} ` + coords.map(([x,y]) => x+','+y).join(' ') + ` ${coords[coords.length-1][0]},${H}`;
-
-    // Dots with value labels
+    const polyline = coords.map(([x,y])=>x+','+y).join(' ');
+    const area = coords[0][0]+','+H+' '+coords.map(([x,y])=>x+','+y).join(' ')+' '+coords[coords.length-1][0]+','+H;
     const dots = coords.map(([x,y],i) => {
-      const onTop = y > 16;
-      return `<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)"/>
-        <text x="${x}" y="${onTop ? y-7 : y+13}" text-anchor="middle" font-size="9" fill="var(--accent)" font-family="DM Sans,sans-serif" font-weight="600">${pts[i].reps}</text>`;
+      const onTop = y>16;
+      return `<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)"/><text x="${x}" y="${onTop?y-7:y+13}" text-anchor="middle" font-size="9" fill="var(--accent)" font-family="DM Sans,sans-serif" font-weight="600">${pts[i].reps}</text>`;
     }).join('');
-
-    // X axis date labels — show first, last, and up to 3 middle ones
-    const labelIndices = pts.length <= 5
-      ? pts.map((_,i) => i)
-      : [0, Math.floor((pts.length-1)/3), Math.floor((pts.length-1)*2/3), pts.length-1];
-    const uniqueIndices = [...new Set(labelIndices)];
-    const xLabels = uniqueIndices.map(i => {
+    const labelIdx = pts.length<=5 ? pts.map((_,i)=>i) : [0,Math.floor((pts.length-1)/3),Math.floor((pts.length-1)*2/3),pts.length-1];
+    const xLabels = [...new Set(labelIdx)].map(i => {
       const d = new Date(pts[i].date+'T12:00:00');
-      const label = (d.getMonth()+1)+'/'+(d.getDate());
-      const x = pts.length === 1 ? W/2 : PAD + (i/(pts.length-1))*(W-PAD*2);
-      return `<text x="${x}" y="14" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="DM Sans,sans-serif">${label}</text>`;
+      const lbl = (d.getMonth()+1)+'/'+(d.getDate());
+      const x = pts.length===1 ? W/2 : PAD+(i/(pts.length-1))*(W-PAD*2);
+      return `<text x="${x}" y="14" text-anchor="middle" font-size="9" fill="var(--muted)" font-family="DM Sans,sans-serif">${lbl}</text>`;
     }).join('');
-
-    return `<div class="chart-card">
-      <div class="chart-title">${name.toUpperCase()}</div>
-      <div class="chart-wrap">
-        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="grad-${name}" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <polygon points="${area}" fill="url(#grad-${name})"/>
-          <polyline points="${polyline}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-          ${dots}
-        </svg>
-      </div>
-      <svg viewBox="0 0 ${W} 16" style="width:100%;height:16px;display:block;overflow:visible">
-        ${xLabels}
-      </svg>
-    </div>`;
+    return `<div class="chart-card"><div class="chart-title">${name.toUpperCase()}</div><div class="chart-wrap"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="grad-${name.replace(/ /g,'')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--accent)" stop-opacity="0.3"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs><polygon points="${area}" fill="url(#grad-${name.replace(/ /g,'')})"/><polyline points="${polyline}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>${dots}</svg></div><svg viewBox="0 0 ${W} 16" style="width:100%;height:16px;display:block;overflow:visible">${xLabels}</svg></div>`;
   }).filter(Boolean).join('');
+}
+
+function updateStats() {
+  const logged = workouts.filter(w => w.exercises.some(ex => ex.sets.some(s => s.reps!=='')));
+  const logKeys = new Set(logged.map(w => w.dateKey));
+  let streak = 0;
+  const today = new Date();
+  for (let i=0; i<365; i++) {
+    const d = new Date(today); d.setDate(today.getDate()-i);
+    const key = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if (logKeys.has(key)) streak++; else if (i>0) break;
+  }
+  document.getElementById('streakBadge').textContent = '🔥 '+streak+' DAY'+(streak!==1?'S':'')+' STREAK';
 }
 
 function showToast(msg) {
