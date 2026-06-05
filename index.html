@@ -561,7 +561,6 @@
 <div class="tabs">
   <div class="tab active" onclick="switchTab('today')">Today</div>
   <div class="tab" onclick="switchTab('log')">Log</div>
-  <div class="tab" onclick="switchTab('pr')">PRs</div>
   <div class="tab" onclick="switchTab('stats')">Stats</div>
 </div>
 
@@ -659,11 +658,10 @@ function switchWorkout() {
 }
 
 function switchTab(name) {
-  const tabs = ['today','log','pr','stats'];
+  const tabs = ['today','log','stats'];
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i]===name));
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id==='view-'+name));
   if (name==='log') renderLog();
-  if (name==='pr') renderPRs();
   if (name==='stats') renderStats();
 }
 
@@ -684,12 +682,18 @@ function renderToday() {
 
 function getPR(exName) {
   const todayKey = getTodayKey();
-  let best = 0;
+  let best = { reps: 0, weight: 0 };
   workouts.forEach(w => {
-    if (w.dateKey === todayKey) return; // exclude today
+    if (w.dateKey === todayKey) return;
     w.exercises.forEach(ex => {
       if (ex.name !== exName) return;
-      ex.sets.forEach(s => { const r = parseInt(s.reps)||0; if (r > best) best = r; });
+      ex.sets.forEach(s => {
+        const r = parseInt(s.reps)||0;
+        const wt = parseFloat(s.weight)||0;
+        const betterReps = r > best.reps;
+        const sameRepsMoreWeight = r === best.reps && wt > best.weight;
+        if (betterReps || sameRepsMoreWeight) { best.reps = r; best.weight = wt; }
+      });
     });
   });
   return best;
@@ -697,7 +701,7 @@ function getPR(exName) {
 
 function buildCard(ex, ei) {
   const isLogged = ex.sets.some(s => s.reps !== '');
-  const hasWeight = ex.name === 'Row';
+  const hasWeight = ['Row','RDL','Overhead Press','Bulgarian Split Squat','Squat'].includes(ex.name);
   const pr = getPR(ex.name);
   const setsHtml = ex.sets.map((s,si) => buildSetRow(ei,si,s,hasWeight,pr)).join('');
   const headerCols = hasWeight
@@ -724,8 +728,12 @@ function buildSetRow(ei, si, s, hasWeight, pr) {
         onchange="updateSet(${ei},${si},'weight',this.value,this)" onfocus="this.select()">`
     : '';
   const reps = parseInt(s.reps) || 0;
-  const isNewPR = pr > 0 && reps > pr;
-  const prLabel = pr > 0 ? pr : '—';
+  const weight = parseFloat(s.weight) || 0;
+  const hasPR = pr.reps > 0;
+  const betterReps = reps > pr.reps;
+  const sameRepsMoreWeight = reps === pr.reps && pr.reps > 0 && weight > pr.weight;
+  const isNewPR = betterReps || sameRepsMoreWeight;
+  const prLabel = hasPR ? (pr.weight > 0 ? pr.reps + ' @ ' + pr.weight : String(pr.reps)) : '—';
   const prDisplay = `<div class="pr-inline${isNewPR?' pr-new':''}">${isNewPR?'🏆':prLabel}</div>`;
   const gridStyle = hasWeight
     ? ' style="grid-template-columns:36px 1fr 1fr 44px"'
@@ -743,7 +751,7 @@ function addSet(ei) {
   w.exercises[ei].sets.push({reps:'',weight:''});
   save();
   const si = w.exercises[ei].sets.length - 1;
-  const hasWeight = w.exercises[ei].name === 'Row';
+  const hasWeight = ['Row','RDL','Overhead Press','Bulgarian Split Squat','Squat'].includes(w.exercises[ei].name);
   const pr = getPR(w.exercises[ei].name);
   const container = document.getElementById('setrows-'+ei);
   container.insertAdjacentHTML('beforeend', buildSetRow(ei, si, {reps:'',weight:''}, hasWeight, pr));
@@ -760,7 +768,7 @@ function updateSet(ei, si, field, val, inputEl) {
   document.getElementById('excheck-'+ei).textContent = isLogged ? '✓' : '';
   // Re-render set rows so PR indicator updates
   const ex = w.exercises[ei];
-  const hasWeight = ex.name === 'Row';
+  const hasWeight = ['Row','RDL','Overhead Press','Bulgarian Split Squat','Squat'].includes(ex.name);
   const pr = getPR(ex.name);
   document.getElementById('setrows-'+ei).innerHTML = ex.sets.map((s,i) => buildSetRow(ei,i,s,hasWeight,pr)).join('');
   updateProgress(w);
